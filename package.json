@@ -24,6 +24,6 @@
   "scripts": {
     "prepare": "husky",
     "prestart": "bun run deploy.ts || tsx deploy.ts",
-    "start": "bun run deploy.ts || tsx deploy.ts"
+    "start": "bun run index.ts || tsx index.ts"
   }
 }
