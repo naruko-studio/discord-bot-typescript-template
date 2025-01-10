@@ -1,5 +1,5 @@
 import logger from "@/utils/logger"
-import { Client, GatewayIntentBits } from "discord.js"
+import { Client, Collection, GatewayIntentBits } from "discord.js"
 import fs from "fs"
 import path from "path"
 import { fileURLToPath } from "url"
@@ -22,20 +22,34 @@ if (
 }
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
+client.commands = new Collection()
+
+const commandFolderPath = path.join(__dirname, "interactions")
+const commandFolders = fs.readdirSync(commandFolderPath)
+
+for (const folder of commandFolders) {
+  const commandsPath = path.join(commandFolderPath, folder)
+  const commandFiles = fs
+    .readdirSync(commandsPath)
+    .filter((file) => file.endsWith(".ts"))
+  for (const file of commandFiles) {
+    const command = await import(path.join(commandsPath, file))
+    if ("data" in command && "execute" in command)
+      client.commands.set(command.data.name, command)
+    else logger.warn(`Command ${file} is missing data or execute function`)
+  }
+}
+
 const eventsPath = path.join(__dirname, "events")
 const eventFiles = fs
   .readdirSync(eventsPath)
   .filter((file) => file.endsWith(".ts"))
 
-const loadEvents = async () => {
-  for (const file of eventFiles) {
-    const filePath = path.join(eventsPath, file)
-    const event = await import(filePath)
-    if (event.once) client.once(event.name, (...args) => event.execute(...args))
-    else client.on(event.name, (...args) => event.execute(...args))
-  }
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file)
+  const event = await import(filePath)
+  if (event.once) client.once(event.name, (...args) => event.execute(...args))
+  else client.on(event.name, (...args) => event.execute(...args))
 }
-
-loadEvents()
 
 client.login(process.env.TOKEN)
