@@ -32,7 +32,7 @@ if (
 }
 
 const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = []
-const foldersPath = path.join(__dirname, "commands")
+const foldersPath = path.join(__dirname, "interactions")
 const commandFolders = fs.readdirSync(foldersPath)
 
 for (const folder of commandFolders) {
