@@ -21,6 +21,8 @@
     "discord.js": "^14.17.3"
   },
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "prestart": "bun run deploy.ts || tsx deploy.ts",
+    "start": "bun run deploy.ts || tsx deploy.ts"
   }
 }
