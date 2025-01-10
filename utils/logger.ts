@@ -1,12 +1,16 @@
 import chalk from "chalk"
 import fs from "fs"
 import path from "path"
+import { fileURLToPath } from "url"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const levels = ["DEBUG", "INFO", "WARN", "ERROR"]
 const currentLevel = process.env.LOGLEVEL || "INFO"
 const currentLevelIndex = levels.indexOf(currentLevel)
 
-const logDir = path.join(__dirname, "../log")
+const logDir = path.join(__dirname, "../logs")
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir)
 
 const logFile = path.join(
