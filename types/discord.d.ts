@@ -1,11 +1,17 @@
-import { Collection } from "discord.js"
-import { ChatInputCommandInteraction } from "discord.js"
+import {
+  ChatInputCommandInteraction,
+  Collection,
+  SlashCommandBuilder,
+  type RESTPostAPIApplicationCommandsJSONBody,
+} from "discord.js"
+
+export interface SlashCommand {
+  data: SlashCommandBuilder | RESTPostAPIApplicationCommandsJSONBody
+  execute: (interaction: ChatInputCommandInteraction) => Promise<void>
+}
 
 declare module "discord.js" {
-  interface Client {
-    commands: Collection<
-      string,
-      { execute(interaction: ChatInputCommandInteraction): Promise<void> }
-    >
+  export interface Client {
+    commands: Collection<string, SlashCommand>
   }
 }

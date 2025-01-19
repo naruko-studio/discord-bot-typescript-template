@@ -72,4 +72,4 @@ bun
 bun run start
 ```
 
-any issue please report in [issue]([https://](https://github.com/naruko-studio/discord-bot-typescript-template/issues))
+any issue please report in [issue](https://github.com/naruko-studio/discord-bot-typescript-template/issues)

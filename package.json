@@ -2,6 +2,13 @@
   "name": "naruchan",
   "module": "index.ts",
   "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "start:dev": "tsx watch bot.ts",
+    "start": "tsx bot.ts",
+    "prestart": "tsx deploy.ts",
+    "prepare": "husky"
+  },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@types/bun": "latest",
@@ -19,11 +26,7 @@
   "dependencies": {
     "chalk": "^5.4.1",
     "discord.js": "^14.17.3",
-    "dotenv": "^16.4.7"
-  },
-  "scripts": {
-    "prepare": "husky",
-    "prestart": "bun run deploy.ts || tsx deploy.ts",
-    "start": "bun run index.ts || tsx index.ts"
+    "dotenv": "^16.4.7",
+    "tsx": "^4.19.2"
   }
 }

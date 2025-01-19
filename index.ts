@@ -1,55 +1,47 @@
-import logger from "@/utils/logger"
+import "dotenv/config"
+import logger from "./utils/logger"
 import { Client, Collection, GatewayIntentBits } from "discord.js"
-import fs from "fs"
-import path from "path"
-import { fileURLToPath } from "url"
-
-console.clear()
-
-logger.info("Discord bot with TypeScript by Hoshitsuki Naruko")
-logger.info("Powered by discord.js")
+import type { SlashCommand } from "./types/discord"
+import fs from "node:fs"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-if (
-  !process.env.TOKEN ||
-  process.env.TOKEN === "YOUR_TOKEN_HERE" ||
-  process.env.TOKEN === "TOKEN_HERE"
-) {
-  logger.error("No token provided")
-  process.exit(1)
-}
+const token = process.env.TOKEN
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
-client.commands = new Collection()
+client.commands = new Collection<string, SlashCommand>()
 
-const commandFolderPath = path.join(__dirname, "interactions")
-const commandFolders = fs.readdirSync(commandFolderPath)
+const commandsBaseFolder = path.join(__dirname, "commands")
+const commandsFolder = fs.readdirSync(commandsBaseFolder)
 
-for (const folder of commandFolders) {
-  const commandsPath = path.join(commandFolderPath, folder)
-  const commandFiles = fs
-    .readdirSync(commandsPath)
+for (const folder of commandsFolder) {
+  const commandsBasePath = path.join(commandsBaseFolder, folder)
+  const commandsFile = fs
+    .readdirSync(commandsBasePath)
     .filter((file) => file.endsWith(".ts"))
-  for (const file of commandFiles) {
-    const command = await import(path.join(commandsPath, file))
+  for (const file of commandsFile) {
+    const commandFile = path.join(commandsBasePath, file)
+    const { default: command } = await import(commandFile)
     if ("data" in command && "execute" in command)
       client.commands.set(command.data.name, command)
-    else logger.warn(`Command ${file} is missing data or execute function`)
+    else logger.warn(`Command file ${commandFile} data or execute not found! `)
   }
 }
 
-const eventsPath = path.join(__dirname, "events")
-const eventFiles = fs
-  .readdirSync(eventsPath)
+const eventsBaseFolder = path.join(__dirname, "events")
+const eventsFile = fs
+  .readdirSync(eventsBaseFolder)
   .filter((file) => file.endsWith(".ts"))
 
-for (const file of eventFiles) {
-  const filePath = path.join(eventsPath, file)
-  const event = await import(filePath)
+for (const file of eventsFile) {
+  const events = path.join(eventsBaseFolder, file)
+  const { default: event } = await import(events)
   if (event.once) client.once(event.name, (...args) => event.execute(...args))
   else client.on(event.name, (...args) => event.execute(...args))
 }
 
-client.login(process.env.TOKEN)
+client.login(token)
