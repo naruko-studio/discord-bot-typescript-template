@@ -8,6 +8,7 @@ import logger from "./utils/logger"
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import chalk from "chalk"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -53,3 +54,20 @@ const rest = new REST().setToken(String(token))
     logger.error(String(error))
   }
 })()
+
+let setTimer = 5
+process.stdout.write(
+  `\r${chalk.bgBlueBright.black("[INFO]")} ${chalk.blueBright(`Bot will be started in ${setTimer} seconds`)}`,
+)
+const timer = setInterval(() => {
+  setTimer--
+  if (setTimer === 1)
+    process.stdout.write(
+      `\r${chalk.bgBlueBright.black("[INFO]")} ${chalk.blueBright(`Bot will be started in ${setTimer} second`)}`,
+    )
+  else
+    process.stdout.write(
+      `\r${chalk.bgBlueBright.black("[INFO]")} ${chalk.blueBright(`Bot will be started in ${setTimer} seconds`)}`,
+    )
+  if (setTimer === 0) clearInterval(timer)
+}, 1000)
