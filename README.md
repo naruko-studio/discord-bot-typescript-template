@@ -1,9 +1,11 @@
 # Discord.js template for typescript
 
-> :warning: This project was created using `bun init` in bun v1.1.42. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
-> We recommended to use bun or yarn.
-> When not using bun you should add tsx globaly
->
+> :warning: This project was created using `bun init` in bun v1.1.42. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.  
+> We recommended to use bun or yarn.  
+> ~~When not using bun you should add tsx globaly~~  
+> Don't need to install tsx globaly anymore  
+> We add tsx and dotenv as dependencies
+> 
 > npm
 >
 > ```bash
