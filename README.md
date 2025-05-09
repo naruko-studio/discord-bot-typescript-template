@@ -9,7 +9,7 @@
 
 - deprecated `node` for runtime.
 - deprecated `tsx` and `dotenv` as dev dependencies.
-- use logger v2(check commit [000000](https://github.com))
+- use logger v2(check commit [74c1829](https://github.com/naruko-studio/discord-bot-typescript-template/commit/74c182940736cd08211a38515c8338d61a70e736))
 - add `build` script to build binaries for machines without bun installed(thanks [bun build --compile](https://bun.sh/docs/bundler/executables)).
 
 ## To install dependencies:
