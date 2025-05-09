@@ -4,9 +4,9 @@ import {
   type RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from "discord.js"
 import logger from "@/utils/logger"
-import fs from "node:fs"
-import path from "node:path"
-import { fileURLToPath } from "node:url"
+import fs from "fs"
+import path from "path"
+import { fileURLToPath } from "url"
 import chalk from "chalk"
 
 const __filename = fileURLToPath(import.meta.url)
