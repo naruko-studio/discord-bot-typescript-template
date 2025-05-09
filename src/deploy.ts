@@ -1,10 +1,9 @@
-import "dotenv/config"
 import {
   REST,
   Routes,
   type RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from "discord.js"
-import logger from "./utils/logger"
+import logger from "@/utils/logger"
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -18,7 +17,7 @@ const clientId = process.env.CLIENT_ID
 
 const commands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = []
 
-const commandsBaseFolder = path.join(__dirname, "commands")
+const commandsBaseFolder = path.join(__dirname, "interactions")
 const commandsFolder = fs.readdirSync(commandsBaseFolder)
 
 for (const folder of commandsFolder) {
