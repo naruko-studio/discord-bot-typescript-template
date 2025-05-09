@@ -1,13 +1,27 @@
+import js from "@eslint/js"
 import globals from "globals"
-import pluginJs from "@eslint/js"
 import tseslint from "typescript-eslint"
-import prettier from "eslint-plugin-prettier/recommended"
+import markdown from "@eslint/markdown"
+import { defineConfig } from "eslint/config"
+import eslintPluginPrettier from "eslint-plugin-prettier/recommended"
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  { files: ["**/*.{js,mjs,cjs,ts}"] },
-  { languageOptions: { globals: globals.node } },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  prettier,
-]
+export default defineConfig([
+  {
+    files: ["**/*.{js,mjs,cjs,ts}"],
+    plugins: { js },
+    extends: ["js/recommended"],
+  },
+  {
+    files: ["**/*.{js,mjs,cjs,ts}"],
+    languageOptions: { globals: globals.node },
+  },
+  tseslint.configs.recommended,
+  {
+    files: ["**/*.md"],
+    plugins: { markdown },
+    language: "markdown/gfm",
+    extends: ["markdown/recommended"],
+  },
+  eslintPluginPrettier,
+  { rules: { "markdown/no-missing-label-refs": "off" } },
+])
