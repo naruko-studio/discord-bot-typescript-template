@@ -38,3 +38,9 @@ dist/
 
 # build binaries
 .out/
+
+# Environment variables for build binaries
+env.ts
+
+# static interactions and events mapping
+.generated/
