@@ -1,4 +1,3 @@
-import "dotenv/config"
 import logger from "./utils/logger"
 import { Client, Collection, GatewayIntentBits } from "discord.js"
 import type { SlashCommand } from "./types/discord"
@@ -11,11 +10,16 @@ const __dirname = path.dirname(__filename)
 
 const token = process.env.TOKEN
 
+if (!token) {
+  logger.error("TOKEN is not set")
+  process.exit(1)
+}
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
 client.commands = new Collection<string, SlashCommand>()
 
-const commandsBaseFolder = path.join(__dirname, "commands")
+const commandsBaseFolder = path.join(__dirname, "interactions")
 const commandsFolder = fs.readdirSync(commandsBaseFolder)
 
 for (const folder of commandsFolder) {
